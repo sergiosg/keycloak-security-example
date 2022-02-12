@@ -19,16 +19,20 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import java.util.List;
+
 @Order(1)
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.security.ignored}")
-    private String nonSecureUrl;
+    @Value("${spring.security.ignored}.split(',)")
+    private List<String> nonSecureUrl;
+
 
     @Value("${keycloak.jwk}")
     private String jwkProviderUrl;
+//    -- ,/v2/api-docs,/configuration/**,/swagger*/**,/webjars/**"
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -51,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(nonSecureUrl);
+        web.ignoring().antMatchers(nonSecureUrl.toArray(String[]::new));
     }
 
     @SuppressWarnings("EmptyMethod")

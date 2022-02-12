@@ -2,7 +2,13 @@ spring:
   profiles:
     active: @active-profiles@
   security:
-    ignored: "/actuator/**"
+    ignored:
+      "/actuator/**,
+      /v1/pets/**,
+      /v3/api-docs/**,
+      /swagger*/**,
+      /webjars/**,
+      /configuration/**"
 
 server:
   port: 9000
