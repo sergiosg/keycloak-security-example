@@ -44,6 +44,7 @@ public class MovieController implements MoviesApi {
             value = "/movies/{movieId}",
             produces = { "application/json" }
     )
+    @AllowedRoles("VISITOR")
     public ResponseEntity<Movie> showMovieById( @PathVariable("movieId") String movieId ) {
         System.out.println("Movie id: " + movieId);
         return new ResponseEntity<>(movies.get(Long.valueOf(movieId)), HttpStatus.OK);
